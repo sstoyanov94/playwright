@@ -2,13 +2,16 @@
 from playwright.sync_api import Playwright, expect
 import pytest
 
+import utils.secret_config
+
+
 @pytest.mark.parametrize("email", [
     "symonstorozhenko@gmail.com",
     pytest.param("fakeemail@example.com", marks=pytest.mark.xfail),
     pytest.param("jdsAIOJSDA@example.com", marks=pytest.mark.xfail)
 ])
 @pytest.mark.parametrize("password", [
-    "test123",
+   utils.secret_config.PASSWORD,
     pytest.param("fakeemail", marks=pytest.mark.xfail),
     pytest.param("jdsajdsajdsaj", marks=pytest.mark.xfail)
 ])
