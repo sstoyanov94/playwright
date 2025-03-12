@@ -1,5 +1,15 @@
+import os
+
 import pytest
 from playwright.sync_api import Playwright
+
+from utils.secret_config import PASSWORD
+
+try:
+    PASSWORD = os.environ['PASSWORD']
+except KeyError:
+    import utils.secret_config
+    PASSWORD = utils.secret_config.PASSWORD
 
 @pytest.fixture(scope="function")
 def set_up(browser):
@@ -21,6 +31,6 @@ def login_set_up(set_up):
     page.get_by_test_id("emailAuth").get_by_role("textbox", name="Email").click()
     page.get_by_test_id("emailAuth").get_by_role("textbox", name="Email").fill("symon.storozhenko@gmail.com")
     page.get_by_role("textbox", name="Password").click()
-    page.get_by_role("textbox", name="Password").fill("test123", timeout=3000)
+    page.get_by_role("textbox", name="Password").fill(PASSWORD, timeout=3000)
     page.get_by_test_id("submit").get_by_test_id("buttonElement").click()
     yield page
